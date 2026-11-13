@@ -162,10 +162,13 @@ WordCount.java	      kafka_streaming_test.py  pymongo_test.py
 happybase_test.py     mapper.py		       reducer.py
 kafka_python_test.py  mllib_test.py	       spark_hdfs_parquet.py
 Các lệnh:
+  lab buoi N       bật ĐÚNG dịch vụ của Buổi N (0–7), tắt dịch vụ bổ sung không dùng — nên dùng đầu mỗi buổi
+                   Buổi 0,1,2,5,7: cụm lõi · Buổi 3: + Hive · Buổi 4: + HBase, MongoDB · Buổi 6: + Kafka
   lab start        bật cụm lõi (HDFS, YARN, Spark) — tự chạy khi mở codespace
   lab hive         bật Hive (Lab 3)          lab nosql   bật HBase + MongoDB (Lab 4)
   lab kafka        bật Kafka (Lab 6)         lab extras  bật tất cả dịch vụ bổ sung
   lab stop-extras  tắt dịch vụ bổ sung để giải phóng RAM
+  lab update       lấy bản sửa lỗi môi trường mới nhất từ repo của giảng viên (không đụng src/, data/)
   lab stop         dừng mọi container (GIỮ dữ liệu)
   lab status       trạng thái container, HDFS, YARN, RAM
   lab ui           đường dẫn Web UI

@@ -1,5 +1,5 @@
 # =============================================================================
-#  CT428 "Xử lý dữ liệu lớn" — CỤM LÕI (8 container, 1 image bigdata-lab:2026.10)
+#  CT482 "Xử lý dữ liệu lớn" — CỤM LÕI (8 container, 1 image bigdata-lab:2026.10)
 #  Hadoop 3.4.3 (HDFS + YARN + MapReduce) · Spark 4.1.3 standalone + on YARN
 #
 #  Build image : docker compose build

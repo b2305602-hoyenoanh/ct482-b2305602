@@ -1,8 +1,8 @@
 # =============================================================================
-#  CT428 — DỊCH VỤ BỔ SUNG (Lab 3, 4, 6): Hive 4.2.1 · HBase 2.6.7 · Kafka 4.3.1 · MongoDB 8.0
+#  CT482 — DỊCH VỤ BỔ SUNG (Lab 3, 4, 6): Hive 4.2.1 · HBase 2.6.7 · Kafka 4.3.1 · MongoDB 8.0
 #  LUÔN chạy CHỒNG lên cụm lõi (cùng project, cùng mạng):
 #    docker compose -f docker-compose.yml -f docker-compose.extras.yml up -d
-#  Chỉ bật dịch vụ cần cho từng bài (tiết kiệm RAM), ví dụ:
+#  Trong codespace dùng `lab buoi <N>` (bật đúng dịch vụ của buổi N, tắt phần còn lại). Bằng tay:
 #    Lab 3 (Hive):          ... up -d hiveserver2          (tự kéo theo metastore + Postgres)
 #    Lab 4 (HBase, Mongo):  ... up -d hbase mongodb
 #    Lab 6 (Kafka):         ... up -d kafka
@@ -72,6 +72,10 @@ services:
     environment:
       SERVICE_NAME: hiveserver2
       IS_RESUME: "true"
+      # Tệp PID mặc định nằm ở /opt/hive/conf (lớp ghi của container, còn lại sau restart). Khi codespace
+      # dừng rồi mở lại, container khởi động lại thấy PID cũ = 1 (chính nó) → "HiveServer2 running as
+      # process 1. Stop it first." → thoát → restart mãi. Đặt PID vào tmpfs: mỗi lần khởi động là thư mục rỗng.
+      HIVESERVER2_PID_DIR: /run/hiveserver2
       DEFAULT_FS: hdfs://namenode:9000
       HIVE_WAREHOUSE_PATH: /user/hive/warehouse
       HIVE_SCRATCH_DIR: /tmp/hive
@@ -84,6 +88,7 @@ services:
       - ./conf/hive:/hive_custom_conf:ro
       - ./data:/data
       - ./src:/src
+    tmpfs: ["/run/hiveserver2:mode=1777"]
     mem_limit: 2g
     depends_on:
       hive-metastore: {condition: service_healthy}

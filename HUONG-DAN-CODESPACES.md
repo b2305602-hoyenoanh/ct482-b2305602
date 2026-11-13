@@ -41,7 +41,9 @@ Cấu hình nằm trong thư mục `.devcontainer/`. Cùng cấu hình này cũn
 
 1. Vào https://github.com/codespaces → bấm tên codespace của mình. Cụm lõi **tự khởi động** (30–90 giây).
 2. Làm bài theo hướng dẫn từng buổi như cũ — các lệnh `docker exec -it namenode bash`, `docker exec -it spark-master spark-submit ...` giữ nguyên.
-3. Bật dịch vụ cần cho bài: `lab hive` (Lab 3), `lab nosql` (Lab 4), `lab kafka` (Lab 6). Gõ `lab` để xem tất cả lệnh.
+3. Đầu buổi gõ **`lab buoi N`** (N = số buổi, ví dụ `lab buoi 3`): bật đúng dịch vụ của buổi đó và tắt dịch vụ bổ sung không dùng. Buổi 0, 1, 2, 5, 7 chỉ cần cụm lõi; Buổi 3 thêm Hive, Buổi 4 thêm HBase + MongoDB, Buổi 6 thêm Kafka. Lệnh lẻ `lab hive`, `lab nosql`, `lab kafka`, `lab stop-extras` vẫn dùng được. Gõ `lab` để xem tất cả lệnh.
+   Khi mở lại codespace, dịch vụ bổ sung còn bật từ lần trước được tự tắt (`KEEP_EXTRAS=0` trong `.devcontainer/cau-hinh.env`).
+   Giảng viên sửa lỗi môi trường trên repo gốc → sinh viên gõ `lab update` để nhận bản mới (repo tạo từ template không tự cập nhật).
 4. Web UI: tab **PORTS** cạnh TERMINAL → biểu tượng quả địa cầu; hoặc bấm link từ `lab ui`.
 5. Cuối buổi: `git add src && git commit -m "Lab N" && git push`, rồi **dừng codespace** (github.com/codespaces → `...` → *Stop codespace*) để không tốn quota.
 

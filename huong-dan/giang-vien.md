@@ -84,6 +84,16 @@ GitHub Classroom đã ngừng hoạt động từ 28/08/2026. Hạn mức Codesp
 | `.devcontainer/lab.sh` | `lab hive/nosql/kafka` báo trước khi phải tải image lần đầu | Sinh viên tưởng treo |
 | `.devcontainer/cau-hinh.env` | `DATA_ROWS=5000000` | Mọi bài dùng 5 triệu dòng |
 | `.devcontainer/devcontainer.json` | Forward cổng 4041; tên hiển thị CT482 | Spark UI của ứng dụng thứ hai |
+
+### Bước 3c: Thay đổi repo ngày 13/11/2026
+
+| Tệp | Thay đổi | Lý do |
+|---|---|---|
+| `docker-compose.extras.yml` | `hiveserver2`: `HIVESERVER2_PID_DIR=/run/hiveserver2` trên `tmpfs` | Tệp PID cũ (`/opt/hive/conf/hiveserver2.pid` = 1) còn lại sau khi codespace dừng/mở → `HiveServer2 running as process 1. Stop it first.` → restart vô hạn (đo được `RestartCount` 29) |
+| `.devcontainer/lab.sh` | Thêm `lab buoi N` (bật đúng dịch vụ của buổi, tắt dịch vụ bổ sung không dùng) | Sinh viên Buổi 2 vẫn chạy đủ 14 container |
+| `.devcontainer/lab.sh` | `lab status` cảnh báo container restart liên tục và dịch vụ bổ sung đang bật | Phát hiện sớm vòng lặp restart, RAM thừa |
+| `.devcontainer/lab.sh` | Thêm `lab update`: lấy `.devcontainer/`, `docker-compose*.yml`, `scripts-host/`, `conf/hive/`, `huong-dan/` từ `UPSTREAM_REPO` (không đụng `src/`, `data/`), tạo lại container có cấu hình đổi | Repo sinh viên tạo từ template không nhận bản sửa của GV |
+| `.devcontainer/khoi-dong.sh`, `cau-hinh.env` | Mở codespace: tắt dịch vụ bổ sung còn bật từ lần trước (`KEEP_EXTRAS=0`); `UPSTREAM_REPO` | `restart: unless-stopped` tự bật lại Hive/HBase/MongoDB/Kafka |
 | `.gitignore` | `__pycache__/`, `*.pyc`, `.venv/` | Buổi 4, 5, 6 đưa nhầm tệp sinh ra lên repo |
 | `huong-dan/` | Bài Buổi 0–7 bản Codespaces + trang GV dạng Markdown | Sinh viên đọc ngay trong codespace |
 
@@ -206,14 +216,14 @@ Mọi số đếm, Counter, AUC... trùng với bài gốc chạy trên máy ph�
 - Lần đầu `lab hive` trên Codespaces thật tải apache/hive (3,9 GB) và postgres (0,6 GB), ước tính 3–6 phút. Nên yêu cầu sinh viên chạy `lab hive` một lần trước giờ học.
 - Tez để lại ~1,7 GB dữ liệu tạm sau buổi. `lab stop-extras` (bản repo 06/11/2026) tự dọn; bài cũng có bước dọn thủ công.
 - Không bật `lab nosql`/`lab kafka` cùng lúc với Hive trên máy 8 GB.
-- Mở lại codespace thì chỉ cụm lõi tự bật: phải `lab hive` lại và đặt lại các lệnh SET của phiên beeline. Metadata và bảng còn nguyên.
+- Mở lại codespace thì chỉ cụm lõi tự bật: phải `lab buoi 3` (hoặc `lab hive`) lại và đặt lại các lệnh SET của phiên beeline. Metadata và bảng còn nguyên.
 - Tài khoản Free (15 GB lưu trữ) dễ vượt quota ở buổi này. Khuyến khích Student Developer Pack (20 GB) và DROP bảng thử nghiệm.
 
 ### Buổi 4 — HBase và MongoDB
 
 - Lần đầu `lab nosql` tải mongo:8.0 (~1,3 GB).
 - Khi chạy job, tổng RAM lên 6–7,5 GB / 8 GB. Dặn sinh viên chạy từng job một và không bật dịch vụ khác.
-- Nếu codespace dừng khi HBase/MongoDB đang chạy, lần mở sau chúng tự bật lại (`restart: unless-stopped`). Nhắc `lab stop-extras` cuối buổi để Buổi 5 không thiếu RAM.
+- Nếu codespace dừng khi HBase/MongoDB đang chạy: từ bản 13/11/2026, `khoi-dong.sh` tự tắt chúng khi mở lại (`KEEP_EXTRAS=0`); sinh viên gõ `lab buoi 4` để bật lại. Vẫn nên `lab stop-extras` cuối buổi.
 - `mongosh` in cảnh báo `GLIBC_TUNABLES=glibc.pthread.rseq=0`: bỏ qua, không đổi.
 - Terminal codespace không có `python3`. Mọi script Python chạy trong container `spark-master` (như bài).
 
